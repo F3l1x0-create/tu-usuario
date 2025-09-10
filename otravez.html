@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Los Mejores Jugadores de Fútbol</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0c0c0c 0%, #2a2a2a 100%);
+            color: #fff;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 0;
+            margin-bottom: 40px;
+            background: linear-gradient(90deg, #b01c20 0%, #dc2430 100%);
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/></svg>');
+            background-size: 200px;
+            opacity: 0.3;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
+            position: relative;
+        }
+        
+        .subtitle {
+            font-size: 1.8rem;
+            color: #f8f8f8;
+            margin-bottom: 10px;
+            position: relative;
+            font-weight: 300;
+        }
+        
+        .players-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        @media (min-width: 768px) {
+            .players-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .players-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .player-card:first-child {
+                grid-column: 1 / -1;
+                max-width: 900px;
+                margin: 0 auto;
+                display: flex;
+            }
+            
+            .player-card:first-child .player-image {
+                width: 45%;
+            }
+            
+            .player-card:first-child .player-info {
+                width: 55%;
+            }
+        }
+        
+        .player-card {
+            background: #1e1e1e;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .player-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .player-image {
+            height: 320px;
+            background: linear-gradient(45deg, #333, #555);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #aaa;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .player-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .player-card:hover .player-image img {
+            transform: scale(1.08);
+        }
+        
+        .player-info {
+            padding: 25px;
+        }
+        
+        .player-number {
+            display: inline-block;
+            background: #dc2430;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 50px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .player-name {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #fff;
+            border-bottom: 3px solid #dc2430;
+            padding-bottom: 10px;
+        }
+        
+        .player-details {
+            color: #ccc;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .player-details i {
+            color: #dc2430;
+        }
+        
+        .player-bio {
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .player-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #333;
+        }
+        
+        .stat {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #dc2430;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.95rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .cr7 {
+            border: 4px solid #dc2430;
+        }
+        
+        .cr7 .player-number {
+            background: #dc2430;
+        }
+        
+        .messi .player-number {
+            background: #6ab1e7;
+        }
+        
+        .messi {
+            border: 4px solid #6ab1e7;
+        }
+        
+        .pirlo .player-number {
+            background: #7cb342;
+        }
+        
+        .pirlo {
+            border: 4px solid #7cb342;
+        }
+        
+        .zidane .player-number {
+            background: #7986cb;
+        }
+        
+        .zidane {
+            border: 4px solid #7986cb;
+        }
+        
+        .neuer .player-number {
+            background: #ffb74d;
+            color: #333;
+        }
+        
+        .neuer {
+            border: 4px solid #ffb74d;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            color: #aaa;
+            font-size: 1rem;
+            border-top: 2px solid #333;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            color: #dc2430;
+            margin-bottom: 15px;
+        }
+        
+        .signature {
+            margin-top: 15px;
+            font-style: italic;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-futbol"></i> LOS GIGANTES DEL FÚTBOL</h1>
+            <p class="subtitle">Leyendas que hicieron historia en el deporte rey</p>
+        </header>
+        
+        <div class="players-grid">
+            <!-- Cristiano Ronaldo -->
+            <div class="player-card cr7">
+                <div class="player-image">
+                    <img src="Cristiano_Ronaldo_playing_for_Al_Nassr_FC_against_Persepolis,_September_2023_(cropped).jpg" alt="Cristiano Ronaldo">
+                </div>
+                <div class="player-info">
+                    <span class="player-number">1</span>
+                    <h2 class="player-name">Cristiano Ronaldo</h2>
+                    <p class="player-details"><i class="fas fa-flag"></i> Portugal | <i class="fas fa-trophy"></i> 5 Balones de Oro</p>
+                    <p class="player-bio">Considerado por muchos como el mejor jugador de la historia, Cristiano Ronaldo es conocido por su incredible disciplina, ética de trabajo y habilidad goleadora. Ha ganado ligas en Inglaterra, España e Italia, además de la Eurocopa con Portugal y múltiples Champions League.</p>
+                    <div class="player-stats">
+                        <div class="stat">
+                            <div class="stat-value">5</div>
+                            <div class="stat-label">Champions</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">850+</div>
+                            <div class="stat-label">Goles</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">34</div>
+                            <div class="stat-label">Títulos</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Lionel Messi -->
+            <div class="player-card messi">
+                <div class="player-image">
+                    <img src="lionel-messi_imago1019567000h.jpg" alt="Lionel Messi">
+                </div>
+                <div class="player-info">
+                    <span class="player-number">2</span>
+                    <h2 class="player-name">Lionel Messi</h2>
+                    <p class="player-details"><i class="fas fa-flag"></i> Argentina | <i class="fas fa-trophy"></i> 7 Balones de Oro</p>
+                    <p class="player-bio">Con una habilidad técnica excepcional y una visión de juego incomparable, Messi ha sido la estrella del FC Barcelona durante más de una década. Considerado por muchos como el rival más directo de CR7 en el debate por el mejor de la historia.</p>
+                    <div class="player-stats">
+                        <div class="stat">
+                            <div class="stat-value">4</div>
+                            <div class="stat-label">Champions</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">800+</div>
+                            <div class="stat-label">Goles</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">38</div>
+                            <div class="stat-label">Títulos</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Andrea Pirlo -->
+            <div class="player-card pirlo">
+                <div class="player-image">
+                    <img src="Andrea_Pirlo.jpg" alt="Andrea Pirlo">
+                </div>
+                <div class="player-info">
+                    <span class="player-number">3</span>
+                    <h2 class="player-name">Andrea Pirlo</h2>
+                    <p class="player-details"><i class="fas fa-flag"></i> Italia | <i class="fas fa-trophy"></i> Mundial 2006</p>
+                    <p class="player-bio">Uno de los mejores mediocentros de la historia, conocido por su elegante estilo de juego, su precisión en el pase y su habilidad en los tiros libres. Lideró a Italia hacia la victoria en la Copa Mundial de la FIFA 2006.</p>
+                    <div class="player-stats">
+                        <div class="stat">
+                            <div class="stat-value">2</div>
+                            <div class="stat-label">Champions</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">73</div>
+                            <div class="stat-label">Asistencias</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">17</div>
+                            <div class="stat-label">Títulos</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Zinedine Zidane -->
+            <div class="player-card zidane">
+                <div class="player-image">
+                    <img src="Zidane_Zizu.jpg" alt="Zinedine Zidane">
+                </div>
+                <div class="player-info">
+                    <span class="player-number">4</span>
+                    <h2 class="player-name">Zinedine Zidane</h2>
+                    <p class="player-details"><i class="fas fa-flag"></i> Francia | <i class="fas fa-trophy"></i> 3 FIFA World Player</p>
+                    <p class="player-bio">Conocido por su elegancia, visión y control del balón, Zidane es recordado por sus actuaciones magistrales en grandes partidos, incluyendo su famosa volea en la final de la Champions League 2002 y su liderazgo en el Mundial de 1998.</p>
+                    <div class="player-stats">
+                        <div class="stat">
+                            <div class="stat-value">1</div>
+                            <div class="stat-label">Champions</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">31</div>
+                            <div class="stat-label">Goles</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">14</div>
+                            <div class="stat-label">Títulos</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Manuel Neuer -->
+            <div class="player-card neuer">
+                <div class="player-image">
+                    <img src="20180602_FIFA_Friendly_Match_Austria_vs._Germany_Manuel_Neuer_850_0723.jpg" alt="Manuel Neuer">
+                </div>
+                <div class="player-info">
+                    <span class="player-number">5</span>
+                    <h2 class="player-name">Manuel Neuer</h2>
+                    <p class="player-details"><i class="fas fa-flag"></i> Alemania | <i class="fas fa-trophy"></i> Mundial 2014</p>
+                    <p class="player-bio">Revolucionó el puesto de portero con su estilo de "portero-libero", destacando tanto con sus paradas como con su juego con los pies. Capitán del Bayern Múnich y la selección alemana, con la que ganó la Copa del Mundo 2014.</p>
+                    <div class="player-stats">
+                        <div class="stat">
+                            <div class="stat-value">2</div>
+                            <div class="stat-label">Champions</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">250+</div>
+                            <div class="stat-label">Atajadas</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">28</div>
+                            <div class="stat-label">Títulos</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <div class="logo">
+                <i class="fas fa-futbol"></i>
+            </div>
+            <p>Leyendas Inmortales del Fútbol Mundial</p>
+            <p class="signature">Creado con pasión por el deporte rey</p>
+        </footer>
+    </div>
+
+    <script>
+        // Efecto de escritura para el título
+        document.addEventListener('DOMContentLoaded', function() {
+            const title = document.querySelector('h1');
+            const originalText = title.textContent;
+            title.textContent = '';
+            let i = 0;
+            
+            function typeWriter() {
+                if (i < originalText.length) {
+                    title.textContent += originalText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 50);
+                }
+            }
+            
+            typeWriter();
+            
+            // Efecto de aparición para las tarjetas
+            const cards = document.querySelectorAll('.player-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 300 + (index * 200));
+            });
+        });
+    </script>
+</body>
+</html>
